@@ -27,6 +27,7 @@ FROM fnndsc/ubuntu-python3:latest
 MAINTAINER fnndsc "dev@babymri.org"
 
 ENV APPROOT="/usr/src/medcon"
+ENV DEBIAN_FRONTEND=noninteractive
 COPY ["medcon", "${APPROOT}"]
 COPY ["requirements.txt", "${APPROOT}"]
 
@@ -34,5 +35,6 @@ WORKDIR $APPROOT
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN apt install xmedcon
 
 CMD ["medcon.py", "--help"]
