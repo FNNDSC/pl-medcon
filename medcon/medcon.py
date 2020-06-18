@@ -170,11 +170,11 @@ class Medcon(ChrisApp):
         else:
             str_args = l_appargs[0]
 
-        if len(args.do):
-            if args.do == 'nifti2dicom':
+        if len(options.do):
+            if options.do == 'nifti2dicom':
                 options.args += "-c dicom -split3d"
 
-        print('%s/%s' % (options.inputdir, options.inputFile)
+        print('%s/%s' % (options.inputdir, options.inputFile))
         print('%s' % options.outputdir)
         print(options.args)
 
