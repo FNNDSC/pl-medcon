@@ -132,6 +132,31 @@ class Medcon(ChrisApp):
         Use self.add_argument to specify a new app argument.
         """
 
+        self.add_argument("-a", "--args",
+                          help="FS arguments to pass",
+                          type=str,
+                          dest='args',
+                          optional=True,
+                          default="")
+        self.add_argument("-e", "--exec",
+                          help="FS app to run",
+                          type=str,
+                          dest='exec',
+                          optional=True,
+                          default="recon-all")
+        self.add_argument("-i", "--inputFile",
+                          help="input file",
+                          type=str,
+                          dest='inputFile',
+                          optional=False,
+                          default="")
+        self.add_argument("-o", "--outputFile",
+                          help="output file",
+                          type=str,
+                          dest='outputFile',
+                          optional=False,
+                          default="")
+
     def run(self, options):
         """
         Define the code to be run by this plugin app.
@@ -139,6 +164,8 @@ class Medcon(ChrisApp):
         print(Gstr_title)
         print('Version: %s' % self.get_version())
 
+
+        
     def show_man_page(self):
         """
         Print the app's man page.
