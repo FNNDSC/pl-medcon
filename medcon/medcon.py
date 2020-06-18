@@ -133,29 +133,29 @@ class Medcon(ChrisApp):
         """
 
         self.add_argument("-a", "--args",
-                          help="FS arguments to pass",
+                          help="medcon arguments to pass",
                           type=str,
                           dest='args',
                           optional=True,
                           default="")
-        self.add_argument("-e", "--exec",
-                          help="FS app to run",
+        self.add_argument("-do",
+                          help="functionality of medcon to be used",
                           type=str,
-                          dest='exec',
+                          dest='do',
                           optional=True,
-                          default="recon-all")
-        self.add_argument("-i", "--inputFile",
+                          default="nifti2dicom")
+        self.add_argument("-i", "--inputFile", #equivalent to -f of medcon
                           help="input file",
                           type=str,
                           dest='inputFile',
                           optional=False,
                           default="")
-        self.add_argument("-o", "--outputFile",
-                          help="output file",
-                          type=str,
-                          dest='outputFile',
-                          optional=False,
-                          default="")
+        # self.add_argument("-o", "--outputFile",
+        #                   help="output file",
+        #                   type=str,
+        #                   dest='outputFile',
+        #                   optional=False,
+        #                   default="")
 
     def run(self, options):
         """
@@ -164,6 +164,19 @@ class Medcon(ChrisApp):
         print(Gstr_title)
         print('Version: %s' % self.get_version())
 
+        l_appargs = options.args.split('ARGS:')
+        if len(l_appargs) == 2:
+            str_args = l_appargs[1]
+        else:
+            str_args = l_appargs[0]
+
+        if len(args.do):
+            if args.do == 'nifti2dicom':
+                options.args += "-c dicom -split3d"
+
+        print('%s/%s' % (options.inputdir, options.inputFile)
+        print('%s' % options.outputdir)
+        print(options.args)
 
         
     def show_man_page(self):
