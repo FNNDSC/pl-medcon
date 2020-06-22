@@ -12,6 +12,7 @@
 
 import os
 import sys
+import subprocess
 sys.path.append(os.path.dirname(__file__))
 
 # import the Chris app superclass
@@ -157,10 +158,72 @@ class Medcon(ChrisApp):
         #                   optional=False,
         #                   default="")
 
+    def job_run(self, str_cmd):
+        """
+        Running some CLI process via python is cumbersome. The typical/easy 
+        path of
+
+                            os.system(str_cmd)
+
+        is deprecated and prone to hidden complexity. The preferred
+        method is via subprocess, which has a cumbersome processing
+        syntax. Still, this method runs the `str_cmd` and returns the
+        stderr and stdout strings as well as a returncode.
+
+        Providing readtime output of both stdout and stderr seems
+        problematic. The approach here is to provide realtime
+        output on stdout and only provide stderr on prcoess completion.
+
+        """
+        d_ret = {
+            'stdout':       "",
+            'stderr':       "",
+            'returncode':   0
+        }
+
+        p = subprocess.Popen(
+                    str_cmd.split(),
+                    stdout      = subprocess.PIPE,
+                    stderr      = subprocess.PIPE,
+        )
+
+        # Realtime output on stdout
+        str_stdoutLine  = ""
+        str_stdout      = ""
+        while True:
+            stdout      = p.stdout.readline()
+            if p.poll() is not None:
+                break
+            if stdout:
+                str_stdoutLine = stdout.decode()
+                print(str_stdoutLine, end = '')
+                str_stdout      += str_stdoutLine
+        d_ret['stdout']     = str_stdout
+        d_ret['stderr']     = p.stderr.read().decode()
+        d_ret['returncode'] = p.returncode
+        print('\nstderr: \n%s' % d_ret['stderr'])
+        return d_ret
+
+    def job_stdwrite(self, d_job, options):
+        """
+        Capture the d_job entries to respective files.
+        """
+        for key in d_job.keys():
+            with open(
+                '%s/%s-%s' % (options.outputdir, options.outputFile, key), "w"
+            ) as f:
+                f.write(str(d_job[key]))
+                f.close()
+        return {
+            'status': True
+        }
+
     def run(self, options):
         """
         Define the code to be run by this plugin app.
         """
+
+        global str_cmd
         print(Gstr_title)
         print('Version: %s' % self.get_version())
 
@@ -178,6 +241,15 @@ class Medcon(ChrisApp):
         print('%s' % options.outputdir)
         print(options.args)
 
+        str_cmd = "usr/bin/medcon -f %s %s %s %s" % (options.inputFile, str_args, options.inputdir, options.outputdir)
+
+        # Run the job and provide realtime stdout
+        # and post-run stderr
+        self.job_stdwrite(
+            self.job_run(str_cmd), options
+        ) 
+
+	
         
     def show_man_page(self):
         """
