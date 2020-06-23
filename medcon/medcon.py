@@ -41,6 +41,9 @@ where necessary.)
     SYNOPSIS
 
         python medcon.py                                         \\
+	    -i | --inputFile						\\
+	    [-a]  [--args]						\\
+	    [-do]      							\\
             [-h] [--help]                                               \\
             [--json]                                                    \\
             [--man]                                                     \\
@@ -61,10 +64,25 @@ where necessary.)
 
     DESCRIPTION
 
-        `medcon.py` ...
+        `medcon.py` 
 
     ARGS
 
+	-i | --inputFile
+	Input file to process. This file exists within the explictly provided CLI
+	positional <inputDir>.
+	
+	[-a]  [--args]	
+	Optional string of additional arguments to "pass through" to medcon.
+
+	All the args for medcon are themselves specified at the plugin level with this flag. These
+	args MUST be contained within single quotes (to protect them from the shell) and
+	the quoted string MUST start with the required keyword 'ARGS: '.
+	
+	[-do]  
+	Optional argument which an specify a conversion from one type to another. 
+	Currently, only supports conversion from NIfTI to DICOM by passing the string "nifti2dicom" 
+	
         [-h] [--help]
         If specified, show help message and exit.
         
