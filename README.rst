@@ -25,9 +25,9 @@ Synopsis
 .. code::
 
     python medcon.py                                           \\
-        -i | --inputFile						                    \\
-	    [-a]  [--args]						                        \\
-	    [-do]      							                        \\
+        -i | --inputFile					    \\
+	[-a]  [--args]						    \\
+	[-do]      						    \\
         [-h] [--help]                                               \\
         [--json]                                                    \\
         [--man]                                                     \\
