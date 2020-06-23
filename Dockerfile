@@ -33,7 +33,7 @@ COPY ["requirements.txt", "${APPROOT}"]
 
 WORKDIR $APPROOT
 
-RUN apt install medcon
+RUN apt install -y medcon
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 

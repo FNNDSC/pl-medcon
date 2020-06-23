@@ -261,7 +261,7 @@ class Medcon(ChrisApp):
         print(options.args)
         
         os.chdir(options.outputdir)
-        str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
+        str_cmd = "medcon -f %s/%s %s" % (options.outputdir, options.inputdir, options.inputFile, str_args)
 
         # Run the job and provide realtime stdout
         # and post-run stderr
