@@ -24,11 +24,17 @@ Synopsis
 
 .. code::
 
-    python medcon.py                                           \
-        [-v <level>] [--verbosity <level>]                          \
-        [--version]                                                 \
-        [--man]                                                     \
-        [--meta]                                                    \
+    python medcon.py                                           \\
+        -i | --inputFile						                    \\
+	    [-a]  [--args]						                        \\
+	    [-do]      							                        \\
+        [-h] [--help]                                               \\
+        [--json]                                                    \\
+        [--man]                                                     \\
+        [--meta]                                                    \\
+        [--savejson <DIR>]                                          \\
+        [-v <level>] [--verbosity <level>]                          \\
+        [--version]    
         <inputDir>
         <outputDir> 
 
@@ -42,18 +48,41 @@ Agruments
 
 .. code::
 
-    [-v <level>] [--verbosity <level>]
-    Verbosity level for app. Not used currently.
+        -i | --inputFile
+        Input file to process. This file exists within the explictly provided CLI
+        positional <inputDir>.
 
-    [--version]
-    If specified, print version number. 
-    
-    [--man]
-    If specified, print (this) man page.
+        [-a]  [--args]	
+        Optional string of additional arguments to "pass through" to medcon.
 
-    [--meta]
-    If specified, print plugin meta data.
+        All the args for medcon are themselves specified at the plugin level with this flag. These
+        args MUST be contained within single quotes (to protect them from the shell) and
+        the quoted string MUST start with the required keyword 'ARGS: '.
 
+        [-do]  
+        Optional argument which an specify a conversion from one type to another. 
+        Currently, only supports conversion from NIfTI to DICOM by passing the string "nifti2dicom" 
+	
+        [-h] [--help]
+        If specified, show help message and exit.
+        
+        [--json]
+        If specified, show json representation of app and exit.
+        
+        [--man]
+        If specified, print (this) man page and exit.
+
+        [--meta]
+        If specified, print plugin meta data and exit.
+        
+        [--savejson <DIR>] 
+        If specified, save json representation file to DIR and exit. 
+        
+        [-v <level>] [--verbosity <level>]
+        Verbosity level for app. Not used currently.
+        
+        [--version]
+        If specified, print version number and exit. 
 
 Run
 ----
