@@ -228,7 +228,8 @@ class Medcon(ChrisApp):
         """
         for key in d_job.keys():
             with open(
-                '%s/%s-%s' % (options.outputdir, options.outputFile, key), "w"
+                #'%s/%s-%s' % (options.outputdir, options.outputFile, key), "w"
+		 '%s-%s' % (options.outputdir, key), "w"
             ) as f:
                 f.write(str(d_job[key]))
                 f.close()
@@ -259,7 +260,7 @@ class Medcon(ChrisApp):
         print('%s' % options.outputdir)
         print(options.args)
 
-        str_cmd = "usr/bin/medcon -f %s %s %s %s" % (options.inputFile, str_args, options.inputdir, options.outputdir)
+        str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
 
         # Run the job and provide realtime stdout
         # and post-run stderr

@@ -33,8 +33,8 @@ COPY ["requirements.txt", "${APPROOT}"]
 
 WORKDIR $APPROOT
 
+RUN apt install medcon
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN apt install xmedcon
 
 CMD ["medcon.py", "--help"]
