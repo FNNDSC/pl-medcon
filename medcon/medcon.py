@@ -255,10 +255,6 @@ class Medcon(ChrisApp):
         if len(options.do):
             if options.do == 'nifti2dicom':
                 options.args += "-c dicom -split3d"
-
-        print('%s/%s' % (options.inputdir, options.inputFile))
-        print('%s' % options.outputdir)
-        print(options.args)
         
         os.chdir(options.outputdir)
         str_cmd = "medcon -f %s/%s %s" % (options.outputdir, options.inputdir, options.inputFile, str_args)
