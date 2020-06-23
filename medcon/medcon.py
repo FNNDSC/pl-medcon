@@ -190,7 +190,7 @@ class Medcon(ChrisApp):
 
         Providing readtime output of both stdout and stderr seems
         problematic. The approach here is to provide realtime
-        output on stdout and only provide stderr on prcoess completion.
+        output on stdout and only provide stderr on process completion.
 
         """
         d_ret = {
@@ -259,7 +259,8 @@ class Medcon(ChrisApp):
         print('%s/%s' % (options.inputdir, options.inputFile))
         print('%s' % options.outputdir)
         print(options.args)
-
+        
+        os.chdir(options.outputdir)
         str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
 
         # Run the job and provide realtime stdout
