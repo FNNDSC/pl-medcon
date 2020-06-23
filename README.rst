@@ -16,7 +16,7 @@ pl-medcon
 Abstract
 --------
 
-An app to ...
+An app to covert NIfTI volumes to DICOM files.
 
 
 Synopsis
@@ -41,7 +41,7 @@ Synopsis
 Description
 -----------
 
-``medcon.py`` is a ChRIS-based application that...
+``medcon.py`` is a ChRIS-based application that takes arguments and converts NIfTI volumes to DICOM images.
 
 Agruments
 ---------
