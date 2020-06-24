@@ -13,6 +13,7 @@
 import os
 import sys
 import subprocess
+import pudb
 sys.path.append(os.path.dirname(__file__))
 
 # import the Chris app superclass
@@ -256,7 +257,9 @@ class Medcon(ChrisApp):
             if options.do == 'nifti2dicom':
                 options.args += "-c dicom -split3d"
         
+
         os.chdir(options.outputdir)
+        pudb.set_trace()
         str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
 
         # Run the job and provide realtime stdout
