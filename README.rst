@@ -25,9 +25,9 @@ Synopsis
 .. code::
 
     python medcon.py                                           \\
-        -i | --inputFile					                        \\
-	    [-a]  [--args]						                        \\
-	    [-do]      						                            \\
+        -i | --inputFile					    \\
+	[-a]  [--args]						    \\
+	[-do]      						    \\
         [-h] [--help]                                               \\
         [--json]                                                    \\
         [--man]                                                     \\
@@ -167,9 +167,9 @@ So, assuming the same env variables as above, and assuming that you are in the s
 
 .. code:: bash
 
-    docker run --rm -ti                                                        \
+    docker run --rm -ti                                                  \
            -v $(pwd)/medcon:/usr/src/medcon                                 \
-           -v ${DEVEL}/SAG-anon-nii/:/incoming                                  \
+           -v ${DEVEL}/SAG-anon-nii/:/incoming                              \
            -v ${DEVEL}/results/:/outgoing                                   \
            fnndsc/pl-medcon medcon.py                                       \
            -i SAG-anon.nii                                                  \
