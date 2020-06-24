@@ -1,5 +1,5 @@
 #!/usr/bin/env python                                            
-#
+#!/usr/bin/python
 # medcon ds ChRIS plugin app
 #
 # (c) 2016-2019 Fetal-Neonatal Neuroimaging & Developmental Science Center
@@ -256,11 +256,9 @@ class Medcon(ChrisApp):
 
         if len(options.do):
             if options.do == 'nifti2dicom':
-                options.args += "-c dicom -split3d"
+                str_args += "-c dicom -split3d"
         
-
         os.chdir(options.outputdir)
-        pudb.set_trace()
         str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
 
         # Run the job and provide realtime stdout

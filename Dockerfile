@@ -33,10 +33,9 @@ COPY ["requirements.txt", "${APPROOT}"]
 
 WORKDIR $APPROOT
 
-RUN apt install -y medcon \
-	pip install --upgrade pip \
-	pip install -r requirements.txt \
-	locale-gen en_US.UTF-8
+RUN apt install -y medcon 
+RUN	pip install --upgrade pip 
+RUN	pip install -r requirements.txt 
 	
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
