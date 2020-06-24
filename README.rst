@@ -25,9 +25,9 @@ Synopsis
 .. code::
 
     python medcon.py                                           \\
-        -i | --inputFile					                        \\
-	    [-a]  [--args]						                        \\
-	    [-do]      						                            \\
+        -i | --inputFile					    \\
+	[-a]  [--args]						    \\
+	[-do]      						    \\
         [-h] [--help]                                               \\
         [--json]                                                    \\
         [--man]                                                     \\
@@ -150,8 +150,8 @@ Copy and modify the different commands below as needed
 docker run --rm                                                         \
     -v ${DEVEL}/SAG-anon-nii/:/incoming -v ${DEVEL}/results/:/outgoing  \
     fnndsc/pl-medcon medcon.py                                          \
-    -i SAG-anon.nii                                                     \                                            \
-    -do nifti2dicom                                                     \                                    \
+    -i SAG-anon.nii                                                     \                                   
+    -do nifti2dicom                                                     \                                   
     /incoming /outgoing
 
 Debug
@@ -165,9 +165,9 @@ So, assuming the same env variables as above, and assuming that you are in the s
 
 .. code:: bash
 
-    docker run --rm -ti                                                        \
+    docker run --rm -ti                                                  \
            -v $(pwd)/medcon:/usr/src/medcon                                 \
-           -v ${DEVEL}/SAG-anon-nii/:/incoming                                  \
+           -v ${DEVEL}/SAG-anon-nii/:/incoming                              \
            -v ${DEVEL}/results/:/outgoing                                   \
            fnndsc/pl-medcon medcon.py                                       \
            -i SAG-anon.nii                                                  \
