@@ -25,17 +25,17 @@ Synopsis
 .. code::
 
     python medcon.py                                           \\
-        -i | --inputFile					    \\
-	[-a]  [--args]						    \\
-	[-do]      						    \\
+        -i | --inputFile					                        \\
+	    [-a]  [--args]						                        \\
+	    [-do]      						                            \\
         [-h] [--help]                                               \\
         [--json]                                                    \\
         [--man]                                                     \\
         [--meta]                                                    \\
         [--savejson <DIR>]                                          \\
         [-v <level>] [--verbosity <level>]                          \\
-        [--version]    
-        <inputDir>
+        [--version]                                                 \\
+        <inputDir>                                                  \\
         <outputDir> 
 
 Description
@@ -43,7 +43,7 @@ Description
 
 ``medcon.py`` is a ChRIS-based application that takes arguments and converts NIfTI volumes to DICOM images.
 
-Agruments
+Arguments
 ---------
 
 .. code::
@@ -86,29 +86,39 @@ Agruments
 
 Run
 ----
+First you will need to clone the Github repository for ``pl-medcon`` using the following command:
 
-This ``plugin`` can be run in two modes: natively as a python package or as a containerized docker image.
+.. code:: bash
 
-Using PyPI
+    git clone https://github.com/FNNDSC/pl-medcon.git
+
+
+While ``pl-medcon`` is meant to be run as a containerized docker image, typcially within ChRIS, it is quite possible to run the plugin directly from the command line as well. The following instructions are meant to be a psuedo- ``jupyter-notebook`` inspired style where if you follow along and copy/paste into a terminal you should be able to run all the examples.
+
+First, let's create a directory, say ``devel`` wherever you feel like it. We will place some test data in this directory to process with this plugin.
+
+.. code:: bash
+
+    cd ~/
+    mkdir devel
+    cd devel
+    export DEVEL=$(pwd)
+
+Now, we need to fetch sample NIfTI data. 
+
+Pull NIfTI
 ~~~~~~~~~~
 
-To run from PyPI, simply do a 
+
+- We provide a sample directory of a .nii volume here. (https://github.com/FNNDSC/SAG-anon-nii.git)
+
+- Clone this repository (SAG-anon-nii) to your local computer.
 
 .. code:: bash
 
-    pip install medcon
+    git clone https://github.com/FNNDSC/SAG-anon-nii.git
 
-and run with
-
-.. code:: bash
-
-    medcon.py --man /tmp /tmp
-
-to get inline help. The app should also understand being called with only two positional arguments
-
-.. code:: bash
-
-    medcon.py /some/input/directory /destination/directory
+Make sure the SAG-anon-nii directory is placed in the devel directory.
 
 
 Using ``docker run``
@@ -116,27 +126,52 @@ Using ``docker run``
 
 To run using ``docker``, be sure to assign an "input" directory to ``/incoming`` and an output directory to ``/outgoing``. *Make sure that the* ``$(pwd)/out`` *directory is world writable!*
 
-Now, prefix all calls with 
+
+- Make sure your current working directory is ``devel``. At this juncture it should contain ``SAG-anon-nii``.
+
+- Create an output directory named ``results`` in ``devel``.
 
 .. code:: bash
 
-    docker run --rm -v $(pwd)/out:/outgoing                             \
-            fnndsc/pl-medcon medcon.py                        \
+    mkdir results && chmod 777 results
 
-Thus, getting inline help is:
+- Pull the ``fnndsc/pl-medcon`` image using the following command.
 
 .. code:: bash
 
-    mkdir in out && chmod 777 out
-    docker run --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
-            fnndsc/pl-medcon medcon.py                        \
-            --man                                                       \
-            /incoming /outgoing
+    docker pull fnndsc/pl-medcon
+
 
 Examples
 --------
 
+Copy and modify the different commands below as needed
 
+docker run --rm                                                         \
+    -v ${DEVEL}/SAG-anon-nii/:/incoming -v ${DEVEL}/results/:/outgoing  \
+    fnndsc/pl-medcon medcon.py                                          \
+    -i SAG-anon.nii                                                     \                                            \
+    -do nifti2dicom                                                     \                                    \
+    /incoming /outgoing
 
+Debug
+------
 
+Finally, let's conclude with some quick notes on debugging this plugin. The debugging process is predicated on the idea of mapping a source code directory into an already existing container, thus "shadowing" or "masking" the existing code and overlaying current work directly within the container.
 
+In this manner, one can debug the plugin without needing to continually rebuild the docker image.
+
+So, assuming the same env variables as above, and assuming that you are in the source repo base directory of the plugin code:
+
+.. code:: bash
+
+    docker run --rm -ti                                                        \
+           -v $(pwd)/medcon:/usr/src/medcon                                 \
+           -v ${DEVEL}/SAG-anon-nii/:/incoming                                  \
+           -v ${DEVEL}/results/:/outgoing                                   \
+           fnndsc/pl-medcon medcon.py                                       \
+           -i SAG-anon.nii                                                  \
+           -do nifti2dicom                                                  \
+           /incoming /outgoing
+
+Of course, adapt the above as needed.
