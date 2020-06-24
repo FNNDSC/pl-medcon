@@ -147,12 +147,14 @@ Examples
 
 Copy and modify the different commands below as needed
 
-docker run --rm                                                         \
-    -v ${DEVEL}/SAG-anon-nii/:/incoming -v ${DEVEL}/results/:/outgoing  \
-    fnndsc/pl-medcon medcon.py                                          \
-    -i SAG-anon.nii                                                     \                                            \
-    -do nifti2dicom                                                     \                                    \
-    /incoming /outgoing
+..  code:: bash
+
+    docker run --rm                                                         \
+        -v ${DEVEL}/SAG-anon-nii/:/incoming -v ${DEVEL}/results/:/outgoing  \
+        fnndsc/pl-medcon medcon.py                                          \
+        -i SAG-anon.nii                                                     \                                            \
+        -do nifti2dicom                                                     \                                    \
+        /incoming /outgoing
 
 Debug
 ------
