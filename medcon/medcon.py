@@ -83,6 +83,10 @@ Gstr_synopsis = """
         environment with necessary requirements already installed 
         (see the `requirements.txt` file).
 
+        Please note, however, that running this application from its
+        docker container is the preferred method and the one documented
+        here.
+
     ARGS
 
          -i|--inputFile <inputFile>
@@ -135,7 +139,7 @@ class Medcon(ChrisApp):
     DESCRIPTION             = """
     A ChRIS plugin that wraps loosely around a `medcon` binary to expose its functionality.
     """
-    AUTHORS                 = 'Arushi Vyas (dev@babyMRI.org)'
+    AUTHORS                 = 'Arushi Vyas / Rudolph Pienaar (dev@babyMRI.org)'
     SELFPATH                = os.path.dirname(os.path.abspath(__file__))
     SELFEXEC                = os.path.basename(__file__)
     EXECSHELL               = 'python3'
@@ -143,7 +147,7 @@ class Medcon(ChrisApp):
     CATEGORY                = ''
     TYPE                    = 'ds'
     DOCUMENTATION           = 'https://github.com/FNNDSC/pl-medcon'
-    VERSION                 = '0.1'
+    VERSION                 = '1.0.0.0'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
