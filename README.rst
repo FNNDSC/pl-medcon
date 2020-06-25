@@ -16,32 +16,32 @@ pl-medcon
 Abstract
 --------
 
-An app to covert NIfTI volumes to DICOM files.
+An app to covert NIfTI volumes to DICOM files. This is ChRIS conformant "DS" (Data Synthesis) plugin that wraps around the `medcon` package and provides a thin shim about that executable.
 
 
 Synopsis
 --------
 
 .. code::
-
-    python medcon.py                                           \\
-        -i | --inputFile					    \\
-	[-a]  [--args]						    \\
-	[-do]      						    \\
-        [-h] [--help]                                               \\
-        [--json]                                                    \\
-        [--man]                                                     \\
-        [--meta]                                                    \\
-        [--savejson <DIR>]                                          \\
-        [-v <level>] [--verbosity <level>]                          \\
-        [--version]                                                 \\
-        <inputDir>                                                  \\
+ 
+    python medcon.py                                                \
+        -i | --inputFile					    \
+	[-a]  [--args]						    \
+	[-do]      						    \
+        [-h] [--help]                                               \
+        [--json]                                                    \
+        [--man]                                                     \
+        [--meta]                                                    \
+        [--savejson <DIR>]                                          \
+        [-v <level>] [--verbosity <level>]                          \
+        [--version]                                                 \
+        <inputDir>                                                  \
         <outputDir> 
 
 Description
 -----------
 
-``medcon.py`` is a ChRIS-based application that takes arguments and converts NIfTI volumes to DICOM images.
+``medcon.py`` is a ChRIS-based application that wraps around an underlying `medcon` and is most often used to convert NIfTI volumes to DICOM images.
 
 Arguments
 ---------
@@ -55,13 +55,18 @@ Arguments
         [-a]  [--args]	
         Optional string of additional arguments to "pass through" to medcon.
 
-        All the args for medcon are themselves specified at the plugin level with this flag. These
-        args MUST be contained within single quotes (to protect them from the shell) and
+        All the args for medcon are themselves specified at the plugin level with this flag. 
+	These args MUST be contained within single quotes (to protect them from the shell) and
         the quoted string MUST start with the required keyword 'ARGS: '.
 
         [-do]  
-        Optional argument which an specify a conversion from one type to another. 
-        Currently, only supports conversion from NIfTI to DICOM by passing the string "nifti2dicom" 
+        Optional argument to provide a "macro" type functionality. Using this argument
+	will add the correct underlying arguments to the internal `medcon` binary. 
+
+        Currently available:
+		
+		- 'nifti2dicom' : this will silently add the args '-c dicom -split3d'
+	
 	
         [-h] [--help]
         If specified, show help message and exit.
@@ -86,12 +91,6 @@ Arguments
 
 Run
 ----
-First you will need to clone the Github repository for ``pl-medcon`` using the following command:
-
-.. code:: bash
-
-    git clone https://github.com/FNNDSC/pl-medcon.git
-
 
 While ``pl-medcon`` is meant to be run as a containerized docker image, typcially within ChRIS, it is quite possible to run the plugin directly from the command line as well. The following instructions are meant to be a psuedo- ``jupyter-notebook`` inspired style where if you follow along and copy/paste into a terminal you should be able to run all the examples.
 
@@ -152,8 +151,8 @@ Copy and modify the different commands below as needed
     docker run --rm                                                         \
         -v ${DEVEL}/SAG-anon-nii/:/incoming -v ${DEVEL}/results/:/outgoing  \
         fnndsc/pl-medcon medcon.py                                          \
-        -i SAG-anon.nii                                                     \                                            \
-        -do nifti2dicom                                                     \                                    \
+        -i SAG-anon.nii                                                     \
+        -do nifti2dicom                                                     \
         /incoming /outgoing
 
 Debug
@@ -167,7 +166,9 @@ So, assuming the same env variables as above, and assuming that you are in the s
 
 .. code:: bash
 
-    docker run --rm -ti                                                  \
+    git clone https://github.com/FNNDSC/pl-medcon.git
+    cd pl-medcon
+    docker run --rm -ti                                                     \
            -v $(pwd)/medcon:/usr/src/medcon                                 \
            -v ${DEVEL}/SAG-anon-nii/:/incoming                              \
            -v ${DEVEL}/results/:/outgoing                                   \
