@@ -111,13 +111,13 @@ Pull NIfTI
 
 - We provide a sample directory of a .nii volume here. (https://github.com/FNNDSC/SAG-anon-nii.git)
 
-- Clone this repository (SAG-anon-nii) to your local computer.
+- Clone this repository (``SAG-anon-nii``) to your local computer.
 
 .. code:: bash
 
     git clone https://github.com/FNNDSC/SAG-anon-nii.git
 
-Make sure the SAG-anon-nii directory is placed in the devel directory.
+Make sure the ``SAG-anon-nii`` directory is placed in the devel directory.
 
 
 Using ``docker run``
