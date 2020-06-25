@@ -53,25 +53,25 @@ Synopsis
 Description
 -----------
 
-        `medcon.py` coverts NIfTI volumes to DICOM files. This is a ChRIS
-        conformant "DS" (Data Synthesis) plugin that wraps around the
-        medcon package and provides a thin shim about that executable. Using
-        the [--args 'ARGS: <args>'] CLI, a user can pass any additional 
-        arbitrary arguments to the underlying `medcon`.
+`medcon.py` coverts NIfTI volumes to DICOM files. This is a ChRIS
+conformant "DS" (Data Synthesis) plugin that wraps around the
+medcon package and provides a thin shim about that executable. Using
+the [--args 'ARGS: <args>'] CLI, a user can pass any additional 
+arbitrary arguments to the underlying `medcon`.
 
-        If running this application directly, i.e. outside of its 
-        docker container, please make sure that the `medcon` application
-        is installed in the host system. On Ubuntu, this is typically:
+If running this application directly, i.e. outside of its 
+docker container, please make sure that the `medcon` application
+is installed in the host system. On Ubuntu, this is typically:
 
-                            sudo apt install medcon
+                    sudo apt install medcon
 
-        and also make sure that you are in an appropriate python virtual
-        environment with necessary requirements already installed 
-        (see the `requirements.txt` file).
+and also make sure that you are in an appropriate python virtual
+environment with necessary requirements already installed 
+(see the `requirements.txt` file).
 
-        Please note, however, that running this application from its
-        docker container is the preferred method and the one documented
-        here.
+Please note, however, that running this application from its
+docker container is the preferred method and the one documented
+here.
 
 
 Arguments

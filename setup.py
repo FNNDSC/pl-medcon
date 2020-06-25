@@ -21,7 +21,7 @@ setup(
       name             =   'medcon',
       # for best practices make this version the same as the VERSION class variable
       # defined in your ChrisApp-derived Python class
-      version          =   '1.1.0.0',
+      version          =   '1.1.0.1',
       description      =   'A ChRIS DS plugin that wraps around medcon and provides NifTI to DICOM conversion capability.',
       long_description =   readme(),
       author           =   'Arushi Vyas / Rudolph Pienaar',
