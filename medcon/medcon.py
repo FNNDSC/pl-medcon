@@ -24,14 +24,14 @@ from chrisapp.base import ChrisApp
 Gstr_title = """
 
 
-                    _                                
-                   | |                               
- _ __ ___   ___  __| | ___  ___  _ __    _ __  _   _ 
+                    _
+                   | |
+ _ __ ___   ___  __| | ___  ___  _ __    _ __  _   _
 | '_ ` _ \ / _ \/ _` |/ __|/ _ \| '_ \  | '_ \| | | |
 | | | | | |  __/ (_| | (__| (_) | | | |_| |_) | |_| |
 |_| |_| |_|\___|\__,_|\___|\___/|_| |_(_) .__/ \__, |
                                         | |     __/ |
-                                        |_|    |___/ 
+                                        |_|    |___/
 
 
 
@@ -72,17 +72,17 @@ Gstr_synopsis = """
         `medcon.py` coverts NIfTI volumes to DICOM files. This is a ChRIS
         conformant "DS" (Data Synthesis) plugin that wraps around the
         medcon package and provides a thin shim about that executable. Using
-        the [--args 'ARGS: <args>'] CLI, a user can pass any additional 
+        the [--args 'ARGS: <args>'] CLI, a user can pass any additional
         arbitrary arguments to the underlying `medcon`.
 
-        If running this application directly, i.e. outside of its 
+        If running this application directly, i.e. outside of its
         docker container, please make sure that the `medcon` application
         is installed in the host system. On Ubuntu, this is typically:
 
                             sudo apt install medcon
 
         and also make sure that you are in an appropriate python virtual
-        environment with necessary requirements already installed 
+        environment with necessary requirements already installed
         (see the `requirements.txt` file).
 
         Please note, however, that running this application from its
@@ -92,7 +92,7 @@ Gstr_synopsis = """
     ARGS
 
          -i|--inputFile <inputFile>
-        Input file to process. This file exists within the explictly provided 
+        Input file to process. This file exists within the explictly provided
         CLI positional <inputDir>.
 
         [-a|--args 'ARGS: <argsToPassTo_medcon>']
@@ -104,13 +104,13 @@ Gstr_synopsis = """
          the required keyword 'ARGS: '.
 
         [--do <macro>]
-        Optional argument to provide a "macro" type functionality. Using this 
-        argument will add the correct underlying arguments to the internal 
+        Optional argument to provide a "macro" type functionality. Using this
+        argument will add the correct underlying arguments to the internal
         `medcon` binary.
 
         Currently available:
 
-	        - 'nifti2dicom' : this will silently add the args 
+	        - 'nifti2dicom' : this will silently add the args
                               '-c dicom -split3d'
 
         [-h] [--help]
@@ -129,7 +129,9 @@ Gstr_synopsis = """
         If specified, save json representation file to DIR and exit.
 
         [-v <level>] [--verbosity <level>]
-        Verbosity level for app. Not used currently.
+        Verbosity level for app. If set to '0', no output is logged to
+        console. Note stderr and stdout are still captured and saved
+        to the <outputdir> even if verbosity is '0'.
 
         [--version]
         If specified, print version number and exit.
@@ -149,7 +151,7 @@ class Medcon(ChrisApp):
     CATEGORY                = ''
     TYPE                    = 'ds'
     DOCUMENTATION           = 'https://github.com/FNNDSC/pl-medcon'
-    VERSION                 = '1.0.0.1'
+    VERSION                 = '1.1.0.0'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
@@ -199,7 +201,7 @@ class Medcon(ChrisApp):
                           optional=False,
                           default="")
 
-    def job_run(self, str_cmd):
+    def job_run(self, str_cmd, options):
         """
         Running some CLI process via python is cumbersome. The typical/easy
         path of
@@ -237,12 +239,14 @@ class Medcon(ChrisApp):
                 break
             if stdout:
                 str_stdoutLine = stdout.decode()
-                print(str_stdoutLine, end = '')
+                if int(options.verbosity):
+                    print(str_stdoutLine, end = '')
                 str_stdout      += str_stdoutLine
         d_ret['stdout']     = str_stdout
         d_ret['stderr']     = p.stderr.read().decode()
         d_ret['returncode'] = p.returncode
-        print('\nstderr: \n%s' % d_ret['stderr'])
+        if int(options.verbosity):
+            print('\nstderr: \n%s' % d_ret['stderr'])
         return d_ret
 
     def job_stdwrite(self, d_job, options):
@@ -251,8 +255,7 @@ class Medcon(ChrisApp):
         """
         for key in d_job.keys():
             with open(
-                #'%s/%s-%s' % (options.outputdir, options.outputFile, key), "w"
-                 '%s-%s' % (options.outputdir, key), "w"
+                 '%s/%s' % (options.outputdir, key), "w"
             ) as f:
                 f.write(str(d_job[key]))
                 f.close()
@@ -265,9 +268,8 @@ class Medcon(ChrisApp):
         Define the code to be run by this plugin app.
         """
 
-        global str_cmd
-        print(Gstr_title)
-        print('Version: %s' % self.get_version())
+        str_cmd     = ""
+        str_verbose = ""
 
         l_appargs = options.args.split('ARGS:')
         if len(l_appargs) == 2:
@@ -279,16 +281,19 @@ class Medcon(ChrisApp):
             if options.do == 'nifti2dicom':
                 str_args += "-c dicom -split3d"
 
+        if int(options.verbosity):
+            print(Gstr_title)
+            print('Version: %s' % self.get_version())
+            str_verbose = "-v "
+
         os.chdir(options.outputdir)
-        str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
+        str_cmd = "medcon %s -f %s/%s %s" % (str_verbose, options.inputdir, options.inputFile, str_args)
 
         # Run the job and provide realtime stdout
         # and post-run stderr
         self.job_stdwrite(
-            self.job_run(str_cmd), options
+            self.job_run(str_cmd, options), options
         )
-
-
 
     def show_man_page(self):
         """
