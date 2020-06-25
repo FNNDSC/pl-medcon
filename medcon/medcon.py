@@ -24,12 +24,14 @@ from chrisapp.base import ChrisApp
 Gstr_title = """
 
 
-                    _
-                   | |
- _ __ ___   ___  __| | ___ ___  _ __
-| '_ ` _ \ / _ \/ _` |/ __/ _ \| '_ \ 
-| | | | | |  __/ (_| | (_| (_) | | | |
-|_| |_| |_|\___|\__,_|\___\___/|_| |_|
+                    _                                
+                   | |                               
+ _ __ ___   ___  __| | ___  ___  _ __    _ __  _   _ 
+| '_ ` _ \ / _ \/ _` |/ __|/ _ \| '_ \  | '_ \| | | |
+| | | | | |  __/ (_| | (__| (_) | | | |_| |_) | |_| |
+|_| |_| |_|\___|\__,_|\___|\___/|_| |_(_) .__/ \__, |
+                                        | |     __/ |
+                                        |_|    |___/ 
 
 
 
@@ -147,7 +149,7 @@ class Medcon(ChrisApp):
     CATEGORY                = ''
     TYPE                    = 'ds'
     DOCUMENTATION           = 'https://github.com/FNNDSC/pl-medcon'
-    VERSION                 = '1.0.0.0'
+    VERSION                 = '1.0.0.1'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value

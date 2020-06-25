@@ -13,6 +13,18 @@ pl-medcon
 .. contents:: Table of Contents
 
 
+.. code:: 
+
+             _                           _                  
+            | |                         | |                 
+       _ __ | |______ _ __ ___   ___  __| | ___  ___  _ __  
+      | '_ \| |______| '_ ` _ \ / _ \/ _` |/ __|/ _ \| '_ \ 
+      | |_) | |      | | | | | |  __/ (_| | (__| (_) | | | |
+      | .__/|_|      |_| |_| |_|\___|\__,_|\___|\___/|_| |_|
+      | |                                                   
+      |_|                                                   
+
+
 Abstract
 --------
 
@@ -171,7 +183,7 @@ Copy and modify the different commands below as needed
         -v ${DEVEL}/SAG-anon-nii/:/incoming -v ${DEVEL}/results/:/outgoing  \
         fnndsc/pl-medcon medcon.py                                          \
         -i SAG-anon.nii                                                     \
-        -do nifti2dicom                                                     \
+        --do nifti2dicom                                                    \
         /incoming /outgoing
 
 Debug
@@ -193,7 +205,7 @@ So, assuming the same env variables as above, and assuming that you are in the s
            -v ${DEVEL}/results/:/outgoing                                   \
            fnndsc/pl-medcon medcon.py                                       \
            -i SAG-anon.nii                                                  \
-           -do nifti2dicom                                                  \
+           --do nifti2dicom                                                 \
            /incoming /outgoing
 
 Of course, adapt the above as needed.
