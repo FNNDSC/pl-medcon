@@ -171,12 +171,6 @@ class Medcon(ChrisApp):
                           dest='inputFile',
                           optional=False,
                           default="")
-        # self.add_argument("-o", "--outputFile",
-        #                   help="output file",
-        #                   type=str,
-        #                   dest='outputFile',
-        #                   optional=False,
-        #                   default="")
 
     def job_run(self, str_cmd):
         """
