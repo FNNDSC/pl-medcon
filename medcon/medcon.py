@@ -1,8 +1,8 @@
-#!/usr/bin/env python                                            
+#!/usr/bin/env python
 #!/usr/bin/python
-# medcon ds ChRIS plugin app
+# medcon DS ChRIS plugin app
 #
-# (c) 2016-2019 Fetal-Neonatal Neuroimaging & Developmental Science Center
+# (c) 2016-2020 Fetal-Neonatal Neuroimaging & Developmental Science Center
 #                   Boston Children's Hospital
 #
 #              http://childrenshospital.org/FNNDSC/
@@ -23,29 +23,33 @@ from chrisapp.base import ChrisApp
 
 Gstr_title = """
 
-Generate a title from 
-http://patorjk.com/software/taag/#p=display&f=Doom&t=medcon
+
+                    _                                
+                   | |                               
+ _ __ ___   ___  __| | ___  ___  _ __    _ __  _   _ 
+| '_ ` _ \ / _ \/ _` |/ __|/ _ \| '_ \  | '_ \| | | |
+| | | | | |  __/ (_| | (__| (_) | | | |_| |_) | |_| |
+|_| |_| |_|\___|\__,_|\___|\___/|_| |_(_) .__/ \__, |
+                                        | |     __/ |
+                                        |_|    |___/ 
+
+
+
 
 """
 
 Gstr_synopsis = """
 
-(Edit this in-line help for app specifics. At a minimum, the 
-flags below are supported -- in the case of DS apps, both
-positional arguments <inputDir> and <outputDir>; for FS apps
-only <outputDir> -- and similarly for <in> <out> directories
-where necessary.)
-
     NAME
 
-       medcon.py 
+       medcon.py
 
     SYNOPSIS
 
-        python medcon.py                                         \\
-	    -i | --inputFile						\\
-	    [-a]  [--args]						\\
-	    [-do]      							\\
+        python medcon.py                                                \\
+             -i|--inputFile <inputFile>                                 \\
+            [-a|--args 'ARGS: <argsToPassTo_medcon>']                   \\
+            [--do <macro>]                                              \\
             [-h] [--help]                                               \\
             [--json]                                                    \\
             [--man]                                                     \\
@@ -54,75 +58,98 @@ where necessary.)
             [-v <level>] [--verbosity <level>]                          \\
             [--version]                                                 \\
             <inputDir>                                                  \\
-            <outputDir> 
+            <outputDir>
 
     BRIEF EXAMPLE
 
         * Bare bones execution
 
             mkdir in out && chmod 777 out
-            python medcon.py   \\
-                                in    out
+            python medcon.py --man in out
 
     DESCRIPTION
 
-        `medcon.py` 
+        `medcon.py` coverts NIfTI volumes to DICOM files. This is a ChRIS
+        conformant "DS" (Data Synthesis) plugin that wraps around the
+        medcon package and provides a thin shim about that executable. Using
+        the [--args 'ARGS: <args>'] CLI, a user can pass any additional 
+        arbitrary arguments to the underlying `medcon`.
+
+        If running this application directly, i.e. outside of its 
+        docker container, please make sure that the `medcon` application
+        is installed in the host system. On Ubuntu, this is typically:
+
+                            sudo apt install medcon
+
+        and also make sure that you are in an appropriate python virtual
+        environment with necessary requirements already installed 
+        (see the `requirements.txt` file).
+
+        Please note, however, that running this application from its
+        docker container is the preferred method and the one documented
+        here.
 
     ARGS
 
-	-i | --inputFile
-	Input file to process. This file exists within the explictly provided CLI
-	positional <inputDir>.
-	
-	[-a]  [--args]	
-	Optional string of additional arguments to "pass through" to medcon.
+         -i|--inputFile <inputFile>
+        Input file to process. This file exists within the explictly provided 
+        CLI positional <inputDir>.
 
-	All the args for medcon are themselves specified at the plugin level with this flag. These
-	args MUST be contained within single quotes (to protect them from the shell) and
-	the quoted string MUST start with the required keyword 'ARGS: '.
-	
-	[-do]  
-	Optional argument which an specify a conversion from one type to another. 
-	Currently, only supports conversion from NIfTI to DICOM by passing the string "nifti2dicom" 
-	
+        [-a|--args 'ARGS: <argsToPassTo_medcon>']
+        Optional string of additional arguments to "pass through" to medcon.
+
+        All the args for medcon are themselves specified at the plugin level
+        with this flag. These args MUST be contained within single quotes
+        (to protect them from the shell) and the quoted string MUST start with
+         the required keyword 'ARGS: '.
+
+        [--do <macro>]
+        Optional argument to provide a "macro" type functionality. Using this 
+        argument will add the correct underlying arguments to the internal 
+        `medcon` binary.
+
+        Currently available:
+
+	        - 'nifti2dicom' : this will silently add the args 
+                              '-c dicom -split3d'
+
         [-h] [--help]
         If specified, show help message and exit.
-        
+
         [--json]
         If specified, show json representation of app and exit.
-        
+
         [--man]
         If specified, print (this) man page and exit.
 
         [--meta]
         If specified, print plugin meta data and exit.
-        
-        [--savejson <DIR>] 
-        If specified, save json representation file to DIR and exit. 
-        
+
+        [--savejson <DIR>]
+        If specified, save json representation file to DIR and exit.
+
         [-v <level>] [--verbosity <level>]
         Verbosity level for app. Not used currently.
-        
+
         [--version]
-        If specified, print version number and exit. 
+        If specified, print version number and exit.
 
 """
 
 
 class Medcon(ChrisApp):
+    DESCRIPTION             = """
+    A ChRIS plugin that wraps loosely around a `medcon` binary to expose its functionality.
     """
-    An app to ....
-    """
-    AUTHORS                 = 'Arushi Vyas (dev@babyMRI.org)'
+    AUTHORS                 = 'Arushi Vyas / Rudolph Pienaar (dev@babyMRI.org)'
     SELFPATH                = os.path.dirname(os.path.abspath(__file__))
     SELFEXEC                = os.path.basename(__file__)
     EXECSHELL               = 'python3'
-    TITLE                   = 'A ds plugin to convert NIfTI to DICOM'
+    TITLE                   = 'A DS plugin to convert NIfTI volumes to DICOM files.'
     CATEGORY                = ''
     TYPE                    = 'ds'
-    DESCRIPTION             = 'An app to ...'
-    DOCUMENTATION           = 'http://wiki'
-    VERSION                 = '0.1'
+    DOCUMENTATION           = 'https://github.com/FNNDSC/pl-medcon'
+    VERSION                 = '1.0.0.1'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
@@ -159,7 +186,7 @@ class Medcon(ChrisApp):
                           dest='args',
                           optional=True,
                           default="")
-        self.add_argument("-do",
+        self.add_argument("--do",
                           help="functionality of medcon to be used",
                           type=str,
                           dest='do',
@@ -174,7 +201,7 @@ class Medcon(ChrisApp):
 
     def job_run(self, str_cmd):
         """
-        Running some CLI process via python is cumbersome. The typical/easy 
+        Running some CLI process via python is cumbersome. The typical/easy
         path of
 
                             os.system(str_cmd)
@@ -225,7 +252,7 @@ class Medcon(ChrisApp):
         for key in d_job.keys():
             with open(
                 #'%s/%s-%s' % (options.outputdir, options.outputFile, key), "w"
-		 '%s-%s' % (options.outputdir, key), "w"
+                 '%s-%s' % (options.outputdir, key), "w"
             ) as f:
                 f.write(str(d_job[key]))
                 f.close()
@@ -251,7 +278,7 @@ class Medcon(ChrisApp):
         if len(options.do):
             if options.do == 'nifti2dicom':
                 str_args += "-c dicom -split3d"
-        
+
         os.chdir(options.outputdir)
         str_cmd = "medcon -f %s/%s %s" % (options.inputdir, options.inputFile, str_args)
 
@@ -259,10 +286,10 @@ class Medcon(ChrisApp):
         # and post-run stderr
         self.job_stdwrite(
             self.job_run(str_cmd), options
-        ) 
+        )
 
-	
-        
+
+
     def show_man_page(self):
         """
         Print the app's man page.

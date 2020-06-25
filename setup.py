@@ -21,12 +21,12 @@ setup(
       name             =   'medcon',
       # for best practices make this version the same as the VERSION class variable
       # defined in your ChrisApp-derived Python class
-      version          =   '0.1',
-      description      =   'An app to ...',
+      version          =   '1.0.0.1',
+      description      =   'A ChRIS DS plugin that wraps around medcon and provides NifTI to DICOM conversion capability.',
       long_description =   readme(),
-      author           =   'Arushi Vyas',
+      author           =   'Arushi Vyas / Rudolph Pienaar',
       author_email     =   'dev@babyMRI.org',
-      url              =   'http://wiki',
+      url              =   'https://github.com/FNNDSC/pl-medcon',
       packages         =   ['medcon'],
       install_requires =   ['chrisapp', 'pudb'],
       test_suite       =   'nose.collector',
