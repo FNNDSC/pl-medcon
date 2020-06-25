@@ -16,7 +16,7 @@ pl-medcon
 Abstract
 --------
 
-An app to covert NIfTI volumes to DICOM files. This is ChRIS conformant "DS" (Data Synthesis) plugin that wraps around the `medcon` package and provides a thin shim about that executable.
+An app to covert NIfTI volumes to DICOM files. This is a ChRIS conformant "DS" (Data Synthesis) plugin that wraps around the `medcon` package and provides a thin shim about that executable.
 
 
 Synopsis
