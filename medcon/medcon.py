@@ -252,7 +252,7 @@ class Medcon(ChrisApp):
         for key in d_job.keys():
             with open(
                 #'%s/%s-%s' % (options.outputdir, options.outputFile, key), "w"
-                 '%s-%s' % (options.outputdir, key), "w"
+                 '%s/%s' % (options.outputdir, key), "w"
             ) as f:
                 f.write(str(d_job[key]))
                 f.close()
