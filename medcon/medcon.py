@@ -1,14 +1,13 @@
-#!/usr/bin/env python
-#!/usr/bin/python
-# medcon DS ChRIS plugin app
+#!/usr/bin/env python                                            
 #
-# (c) 2016-2020 Fetal-Neonatal Neuroimaging & Developmental Science Center
+# medcon ds ChRIS plugin app
+#
+# (c) 2021 Fetal-Neonatal Neuroimaging & Developmental Science Center
 #                   Boston Children's Hospital
 #
 #              http://childrenshospital.org/FNNDSC/
 #                        dev@babyMRI.org
 #
-
 
 import os
 import sys
@@ -22,20 +21,14 @@ from chrisapp.base import ChrisApp
 
 
 Gstr_title = """
-
-
-                    _
-                   | |
- _ __ ___   ___  __| | ___  ___  _ __    _ __  _   _
-| '_ ` _ \ / _ \/ _` |/ __|/ _ \| '_ \  | '_ \| | | |
-| | | | | |  __/ (_| | (__| (_) | | | |_| |_) | |_| |
-|_| |_| |_|\___|\__,_|\___|\___/|_| |_(_) .__/ \__, |
-                                        | |     __/ |
-                                        |_|    |___/
-
-
-
-
+                    _                 
+                   | |                
+ _ __ ___   ___  __| | ___ ___  _ __  
+| '_ ` _ \ / _ \/ _` |/ __/ _ \| '_ \ 
+| | | | | |  __/ (_| | (_| (_) | | | |
+|_| |_| |_|\___|\__,_|\___\___/|_| |_|
+                                      
+                                      
 """
 
 Gstr_synopsis = """
@@ -140,20 +133,14 @@ Gstr_synopsis = """
 
 
 class Medcon(ChrisApp):
-    DESCRIPTION             = """
-    A ChRIS plugin that wraps loosely around a `medcon` binary to expose its functionality.
     """
-    AUTHORS                 = 'Arushi Vyas / Rudolph Pienaar (dev@babyMRI.org)'
-    SELFPATH                = os.path.dirname(os.path.abspath(__file__))
-    SELFEXEC                = os.path.basename(__file__)
-    EXECSHELL               = 'python3'
-    TITLE                   = 'A DS plugin to convert NIfTI volumes to DICOM files.'
+    An app to ...
+    """
+    PACKAGE                 = __package__
+    TITLE                   = 'A ChRIS plugin app'
     CATEGORY                = ''
     TYPE                    = 'ds'
-    DOCUMENTATION           = 'https://github.com/FNNDSC/pl-medcon'
-    VERSION                 = '1.1.0.2'
     ICON                    = '' # url of an icon image
-    LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
     MIN_NUMBER_OF_WORKERS   = 1  # Override with integer value
     MAX_CPU_LIMIT           = '' # Override with millicore value as string, e.g. '2000m'
@@ -295,14 +282,9 @@ class Medcon(ChrisApp):
             self.job_run(str_cmd, options), options
         )
 
+
     def show_man_page(self):
         """
         Print the app's man page.
         """
         print(Gstr_synopsis)
-
-
-# ENTRYPOINT
-if __name__ == "__main__":
-    chris_app = Medcon()
-    chris_app.launch()

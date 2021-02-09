@@ -7,4 +7,4 @@ docs/build
 htmlcov
 .docker
 .idea/
-dist/
+.vscode/

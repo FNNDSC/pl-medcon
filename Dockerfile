@@ -8,10 +8,9 @@
 #
 #   docker build -t local/pl-medcon .
 #
-# In the case of a proxy (located at say 10.41.13.4:3128), do:
+# In the case of a proxy (located at 192.168.13.14:3128), do:
 #
-#    export PROXY="http://10.41.13.4:3128"
-#    docker build --build-arg http_proxy=${PROXY} --build-arg UID=$UID -t local/pl-fshack .
+#    docker build --build-arg http_proxy=http://192.168.13.14:3128 --build-arg UID=$UID -t local/pl-medcon .
 #
 # To run an interactive shell inside this container, do:
 #
@@ -22,24 +21,16 @@
 #   docker run -ti -e HOST_IP=$(ip route | grep -v docker | awk '{if(NF==11) print $9}') --entrypoint /bin/bash local/pl-medcon
 #
 
+FROM python:3.9.1-slim-buster
+LABEL maintainer="Arushi Vyas <dev@babyMRI.org>"
 
+WORKDIR /usr/local/src
 
-FROM fnndsc/ubuntu-python3:latest
-MAINTAINER fnndsc "dev@babymri.org"
-
-ENV APPROOT="/usr/src/medcon"
-ENV DEBIAN_FRONTEND=noninteractive
-COPY ["medcon", "${APPROOT}"]
-COPY ["requirements.txt", "${APPROOT}"]
-
-WORKDIR $APPROOT
-
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 RUN apt install -y medcon 
-RUN	pip install --upgrade pip 
-RUN	pip install -r requirements.txt 
-	
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
 
-CMD ["medcon.py", "--help"]
+COPY . .
+RUN pip install .
+
+CMD ["medcon", "--help"]
