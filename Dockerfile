@@ -27,8 +27,10 @@ LABEL maintainer="Arushi Vyas <dev@babyMRI.org>"
 WORKDIR /usr/local/src
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
-RUN apt install -y medcon 
+RUN pip install -r requirements.txt \
+    && apt-get update && apt-get install -y medcon \
+    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get install -y medcon 
 
 COPY . .
 RUN pip install .

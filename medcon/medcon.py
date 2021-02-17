@@ -40,7 +40,7 @@ Gstr_synopsis = """
     SYNOPSIS
 
         python medcon.py                                                \\
-             -i|--inputFile <inputFile>                                 \\
+            [-i|--inputFile <inputFile>]                                \\
             [-a|--args 'ARGS: <argsToPassTo_medcon>']                   \\
             [--do <macro>]                                              \\
             [-h] [--help]                                               \\
@@ -52,13 +52,6 @@ Gstr_synopsis = """
             [--version]                                                 \\
             <inputDir>                                                  \\
             <outputDir>
-
-    BRIEF EXAMPLE
-
-        * Bare bones execution
-
-            mkdir in out && chmod 777 out
-            python medcon.py --man in out
 
     DESCRIPTION
 
@@ -84,7 +77,7 @@ Gstr_synopsis = """
 
     ARGS
 
-         -i|--inputFile <inputFile>
+        [-i|--inputFile <inputFile>]
         Input file to process. This file exists within the explictly provided
         CLI positional <inputDir>.
 
