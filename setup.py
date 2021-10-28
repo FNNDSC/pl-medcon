@@ -6,7 +6,7 @@ with open(path.join(path.dirname(path.abspath(__file__)), 'README.rst')) as f:
 
 setup(
     name             = 'medcon',
-    version          = '1.0.4',
+    version          = '1.0.5',
     description      = 'An app to convert NIfTI volumes to DICOM files',
     long_description = readme,
     author           = 'Arushi Vyas',
